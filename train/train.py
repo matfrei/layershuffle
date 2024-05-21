@@ -2,8 +2,9 @@ import os
 import argparse
 from config.defaults import get_cfg_defaults
 
+import numpy as np
+
 from datasets import load_metric
-from safetensors import safe_open
 
 import torch,torchvision
 from torchvision.transforms import (CenterCrop,
@@ -12,19 +13,12 @@ from torchvision.transforms import (CenterCrop,
                                     Resize,
                                     ToTensor)
 
-from transformers import ViTImageProcessor, ViTForImageClassification, TrainingArguments, Trainer
+from transformers import ViTImageProcessor,  TrainingArguments, Trainer
 
-from liquidtransformers.utils import Experiment
+from liquidtransformers.utils import Experiment, parse_model
 
 metric = load_metric("accuracy")
 
-def load_model_weights(model,checkpoint_path):
-    state_dict = {}
-    with safe_open(checkpoint_path ,framework="pt") as f:
-        for key in f.keys():
-            state_dict[key] = f.get_tensor(key)
-
-    model.load_state_dict(state_dict)
 
 def compute_metrics(p):
     return metric.compute(predictions=np.argmax(p.predictions, axis=1), references=p.label_ids)
@@ -44,9 +38,9 @@ def parse_args():
     args = parser.parse_args()
     return args
 def train_model():
-    #config_path = parse_args().config_path
+    config_path = parse_args().config_path
     config = get_cfg_defaults()
-    #config.merge_from_file(config_path)
+    config.merge_from_file(config_path)
     config.freeze()
 
     experiment = Experiment(config.EXPERIMENT_LOG.BASEPATH, config.EXPERIMENT_LOG.MODEL_NAME, config.EXPERIMENT_LOG.EXPERIMENT_NAME)
@@ -78,6 +72,10 @@ def train_model():
 
     train_set = torchvision.datasets.ImageFolder(root=config.DATA.TRAIN_PATH,transform=_train_transforms)
     val_set = torchvision.datasets.ImageFolder(root=config.DATA.TEST_PATH,transform=_val_transforms)
+    #train_set = torchvision.datasets.CIFAR10(root="./data/CIFAR10",train=True,download=True,transform=_train_transforms)
+    #val_set = torchvision.datasets.CIFAR10(root="./data/CIFAR10",train=False,download=True,transform=_val_transforms)
+
+
 
     for seed in range(config.RANDOM_SEED,config.RANDOM_SEED+config.NUM_RUNS):
         training_args = TrainingArguments(
@@ -99,10 +97,9 @@ def train_model():
             load_best_model_at_end=True,
             dataloader_num_workers=config.N_WORKERS)
 
-        model = ViTForImageClassification.from_pretrained(config.MODEL.CONF)
-        if config.MODEL.WEIGHTS is not None:
-            load_model_weights(model, config.MODEL.WEIGHTS)
+        model = parse_model(config)
         model.to(device)
+
         trainer = Trainer(
             model=model,
             args=training_args,

@@ -17,12 +17,7 @@ _C.MODEL = CN()
 _C.MODEL.NAME = "ViTForImageClassification"
 _C.MODEL.CONF = "google/vit-base-patch16-224"
 _C.MODEL.WEIGHTS = None
-
-# Experiment logging information
-_C.EXPERIMENT_LOG = CN()
-_C.EXPERIMENT_LOG.BASEPATH = 'results-reproduced/LiquidTransformers'
-_C.EXPERIMENT_LOG.MODEL_NAME = str(_C.MODEL.NAME)
-_C.EXPERIMENT_LOG.EXPERIMENT_NAME = "liquid_transformers"
+_C.MODEL.SHUFFLE = False
 
 # optimizer to use
 _C.OPTIMIZER = CN()
