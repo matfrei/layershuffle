@@ -7,15 +7,10 @@ import numpy as np
 from datasets import load_metric
 
 import torch,torchvision
-from torchvision.transforms import (CenterCrop,
-                                    Compose,
-                                    Normalize,
-                                    Resize,
-                                    ToTensor)
 
 from transformers import ViTImageProcessor,  TrainingArguments, Trainer
 
-from liquidtransformers.utils import Experiment, parse_model
+from liquidtransformers.utils import Experiment, parse_model, parse_dataset
 
 metric = load_metric("accuracy")
 
@@ -47,35 +42,8 @@ def train_model():
 
     device = torch.device(f'cuda:{config.GPU_ID}') if torch.cuda.is_available() else torch.device("cpu")
     processor = ViTImageProcessor.from_pretrained(config.MODEL.CONF)
-    image_mean = processor.image_mean
-    image_std = processor.image_std
-    normalize = Normalize(mean=image_mean, std=image_std)
-    size = processor.size["height"]
 
-    _train_transforms = Compose(
-        [
-            Resize(size),
-            CenterCrop(size),
-            ToTensor(),
-            normalize,
-        ]
-        )
-
-    _val_transforms = Compose(
-        [
-            Resize(size),
-            CenterCrop(size),
-            ToTensor(),
-            normalize,
-        ]
-      )
-
-    train_set = torchvision.datasets.ImageFolder(root=config.DATA.TRAIN_PATH,transform=_train_transforms)
-    val_set = torchvision.datasets.ImageFolder(root=config.DATA.TEST_PATH,transform=_val_transforms)
-    #train_set = torchvision.datasets.CIFAR10(root="./data/CIFAR10",train=True,download=True,transform=_train_transforms)
-    #val_set = torchvision.datasets.CIFAR10(root="./data/CIFAR10",train=False,download=True,transform=_val_transforms)
-
-
+    train_set,val_set = parse_dataset(config,processor)
 
     for seed in range(config.RANDOM_SEED,config.RANDOM_SEED+config.NUM_RUNS):
         training_args = TrainingArguments(

@@ -1,10 +1,10 @@
 # Data
 DATA:
-  DATASET: 'ImageNet2012'
-  TRAIN_PATH: '~/data/imagenet2012/train/'
-  TEST_PATH: '~/data/imagenet2012/val/'
+  DATASET: 'CIFAR-100'
+  TRAIN_PATH: 'data/CIFAR-100'
+  TEST_PATH: 'data/CIFAR-100'
 
-# Experiment parameters
+# Experiment paramters
 RANDOM_SEED: 0
 NUM_RUNS: 5
 GPU_ID: 0
@@ -12,19 +12,19 @@ N_WORKERS: 8
 
 # Model to use
 MODEL:
-  NAME: "ShufflingViTForImageClassification"
+  NAME: "PositionPredictingViTForImageClassification"
   CONF: "google/vit-base-patch16-224"
   SHUFFLE: True
 
 # Experiment logging information
 EXPERIMENT_LOG:
   BASEPATH: 'results-reproduced/LiquidTransformers'
-  MODEL_NAME: "ShufflingViTForImageClassification"
-  EXPERIMENT_NAME: f"ShufflingViTForImageClassification-4_epochs_1_seed_0"
+  MODEL_NAME: "PositionPredictingViTForImageClassification"
+  EXPERIMENT_NAME: f"PositionPredictingViTForImageClassification_lr_1e-4_epochs_1_seed_0"
 
 # optimizer to use
 OPTIMIZER:
-  EPOCHS: 1
+  EPOCHS: 100
   BATCH_SIZE_TRAIN: 160
   BATCH_SIZE_EVAL: 1600
   LR: 1e-4

@@ -4,6 +4,7 @@ _C = CN()
 
 # Data
 _C.DATA = CN()
+_C.DATA.DATASET = 'Imagenet2012'
 _C.DATA.TRAIN_PATH = '~/data/imagenet2012/train/'
 _C.DATA.TEST_PATH = '~/data/imagenet2012/val/'
 

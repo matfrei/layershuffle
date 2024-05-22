@@ -1,5 +1,6 @@
 # Data
 DATA:
+  DATASET: 'ImageNet2012'
   TRAIN_PATH: '~/data/imagenet2012/train/'
   TEST_PATH: '~/data/imagenet2012/val/'
 

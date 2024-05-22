@@ -271,7 +271,8 @@ class PositionPredictingViTForImageClassification(ViTForImageClassification):
         #TODO: addition to loss goes here
         position_logits = torch.cat(outputs.position_logits)
         position_targets = torch.cat(outputs.position_targets)
-        loss += cross_entropy(position_logits, position_targets)
+        position_loss = cross_entropy(position_logits, position_targets)
+        loss = loss + position_loss if loss is not None else None
 
         if not return_dict:
             output = (logits,) + outputs[1:]
