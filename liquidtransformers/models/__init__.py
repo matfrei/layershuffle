@@ -1,4 +1,7 @@
+
 from .position_predicting_vit import PositionPredictingViTForImageClassification
+
 from .postition_encoding_vit import PositionEncodingViTForImageClassification
+from .postition_encoding_deit import PositionEncodingDeiTForImageClassification
 from .shuffling_vit import ShufflingViTForImageClassification
 from .shuffling_deit import ShufflingDeiTForImageClassification

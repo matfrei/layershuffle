@@ -12,7 +12,7 @@ N_WORKERS: 4
 
 # Model to use
 MODEL:
-  NAME: "ShufflingDeiTForImageClassification"
+  NAME: "PositionEncodingDeiTForImageClassification"
   PREPNAME: "DeiTImageProcessor"
   CONF: "facebook/deit-base-distilled-patch16-224"
   SHUFFLE: True

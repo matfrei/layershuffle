@@ -1,5 +1,5 @@
 from transformers import ViTForImageClassification, ViTImageProcessor, DeiTImageProcessor
-from ..models import PositionPredictingViTForImageClassification, PositionEncodingViTForImageClassification, ShufflingViTForImageClassification,ShufflingDeiTForImageClassification
+from ..models import PositionPredictingViTForImageClassification, PositionEncodingViTForImageClassification, PositionEncodingDeiTForImageClassification, ShufflingViTForImageClassification,ShufflingDeiTForImageClassification
 from safetensors import safe_open
 
 import torchvision
@@ -27,7 +27,12 @@ def parse_preprocessor(config):
 
 def parse_model(config):
     # FIXXME: this is fine for now, but it doesn't scale
-    model_dict = {"ViTForImageClassification": ViTForImageClassification, "PositionPredictingViTForImageClassification": PositionPredictingViTForImageClassification,"PositionEncodingViTForImageClassification": PositionEncodingViTForImageClassification, "ShufflingViTForImageClassification":ShufflingViTForImageClassification, "ShufflingDeiTForImageClassification": ShufflingDeiTForImageClassification}
+    model_dict = {"ViTForImageClassification": ViTForImageClassification,
+                  "PositionPredictingViTForImageClassification" : PositionPredictingViTForImageClassification,
+                  "PositionEncodingViTForImageClassification" : PositionEncodingViTForImageClassification,
+                  "PositionEncodingDeiTForImageClassification" : PositionEncodingDeiTForImageClassification,
+                  "ShufflingViTForImageClassification" : ShufflingViTForImageClassification,
+                  "ShufflingDeiTForImageClassification" : ShufflingDeiTForImageClassification}
     model_class = model_dict[config.MODEL.NAME]
     model = model_class.from_pretrained(config.MODEL.CONF)
     if config.MODEL.WEIGHTS is not None:

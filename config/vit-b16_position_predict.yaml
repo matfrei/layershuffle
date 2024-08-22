@@ -1,7 +1,7 @@
 # Data
 DATA:
   DATASET: 'ImageNet2012'
-  TRAIN_PATH: '~/data/imagenet2012/train/'
+  TRAIN_PATH: '~/data/imagenet2012/scripts/'
   TEST_PATH: '~/data/imagenet2012/val/'
 
 # Experiment paramters
