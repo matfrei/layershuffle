@@ -1,15 +1,14 @@
 import torch
 import torch.nn as nn
 
-from transformers import ViTForImageClassification,ViTModel,ViTConfig
-from transformers.models.vit.modeling_vit import ViTPooler,ViTEmbeddings,ViTLayer
+from transformers import DeiTForImageClassification,DeiTModel,DeiTConfig
+from transformers.models.deit.modeling_deit import DeiTPooler,DeiTEmbeddings,DeiTLayer,DeiTEncoder
 
-from transformers.models.vit.modeling_vit import ViTEncoder,ViTPreTrainedModel
 from transformers.modeling_outputs import BaseModelOutput
 # FIXXXME: this approach is awfully verbose and duplicates a lot of code
 # there has to be a better way that is clean?
 
-class ShufflingViTEncoder(ViTEncoder):
+class ShufflingDeiTEncoder(DeiTEncoder):
     def __init__(self, config, shuffle=True):
         super().__init__(config)
         self.shuffle = shuffle
@@ -62,27 +61,30 @@ class ShufflingViTEncoder(ViTEncoder):
             attentions=all_self_attentions,
         )
 
-class ShufflingViTModel(ViTModel):
-    def __init__(self, config: ViTConfig, add_pooling_layer: bool = True, use_mask_token: bool = False):
+class ShufflingDeiTModel(DeiTModel):
+    def __init__(self, config: DeiTConfig, add_pooling_layer: bool = True, use_mask_token: bool = False, shuffle=False):
         super().__init__(config,add_pooling_layer,use_mask_token)
         self.config = config
 
-        self.embeddings = ViTEmbeddings(config, use_mask_token=use_mask_token)
-        self.encoder = ShufflingViTEncoder(config)
+        self.embeddings = DeiTEmbeddings(config, use_mask_token=use_mask_token)
+        self.encoder = ShufflingDeiTEncoder(config)
 
         self.layernorm = nn.LayerNorm(config.hidden_size, eps=config.layer_norm_eps)
-        self.pooler = ViTPooler(config) if add_pooling_layer else None
+        self.pooler = DeiTPooler(config) if add_pooling_layer else None
 
         # Initialize weights and apply final processing
         self.post_init()
 
-class ShufflingViTForImageClassification(ViTForImageClassification):
+class ShufflingDeiTForImageClassification(DeiTForImageClassification):
 
-    def __init__(self, config: ViTConfig) -> None:
+    def __init__(self, config: DeiTConfig) -> None:
         super().__init__(config)
 
         self.num_labels = config.num_labels
-        self.vit = ShufflingViTModel(config, add_pooling_layer=False)
+        self.deit = ShufflingDeiTModel(config, add_pooling_layer=False)
+
+        #FIXXXME hack to easitly acceess shuffle property.. again we should use the models original config here?
+        self.vit = self.deit
 
         # Classifier head
         self.classifier = nn.Linear(config.hidden_size, config.num_labels) if config.num_labels > 0 else nn.Identity()

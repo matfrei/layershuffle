@@ -15,10 +15,12 @@ _C.GPU_ID = 0
 _C.N_WORKERS = 8
 
 _C.MODEL = CN()
+_C.MODEL.PREPNAME = "ViTImageProcessor"
 _C.MODEL.NAME = "ViTForImageClassification"
 _C.MODEL.CONF = "google/vit-base-patch16-224"
 _C.MODEL.WEIGHTS = None
 _C.MODEL.SHUFFLE = False
+_C.MODEL.IMG_SIZE = 256
 
 # optimizer to use
 _C.OPTIMIZER = CN()

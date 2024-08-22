@@ -1,0 +1,32 @@
+# Data
+DATA:
+  DATASET: 'CIFAR-10'
+  TRAIN_PATH: 'data/CIFAR-10'
+  TEST_PATH: 'data/CIFAR-10'
+
+# Experiment paramters
+RANDOM_SEED: 0
+NUM_RUNS: 5
+GPU_ID: 0
+N_WORKERS: 4
+
+# Model to use
+MODEL:
+  NAME: "ShufflingDeiTForImageClassification"
+  PREPNAME: "DeiTImageProcessor"
+  CONF: "facebook/deit-base-distilled-patch16-224"
+  SHUFFLE: True
+  IMG_SIZE: 224
+
+# Experiment logging information
+EXPERIMENT_LOG:
+  BASEPATH: 'results-reproduced/LiquidTransformers'
+  MODEL_NAME: "DeiTForImageClassificationCIFAR10"
+  EXPERIMENT_NAME: "DeiTForImageClassificationCIFAR10_lr_1e-4_epochs_1_seed_0"
+
+# optimizer to use
+OPTIMIZER:
+  EPOCHS: 100
+  BATCH_SIZE_TRAIN: 32
+  BATCH_SIZE_EVAL: 1600
+  LR: 1e-4

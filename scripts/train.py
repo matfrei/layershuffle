@@ -6,11 +6,11 @@ import numpy as np
 
 from datasets import load_metric
 
-import torch,torchvision
+import torch
 
-from transformers import ViTImageProcessor,  TrainingArguments, Trainer
+from transformers import TrainingArguments, Trainer
 
-from liquidtransformers.utils import Experiment, parse_model, parse_dataset
+from liquidtransformers.utils import Experiment, parse_preprocessor, parse_model, parse_dataset
 
 metric = load_metric("accuracy")
 
@@ -41,7 +41,7 @@ def train_model():
     experiment = Experiment(config.EXPERIMENT_LOG.BASEPATH, config.EXPERIMENT_LOG.MODEL_NAME, config.EXPERIMENT_LOG.EXPERIMENT_NAME)
 
     device = torch.device(f'cuda:{config.GPU_ID}') if torch.cuda.is_available() else torch.device("cpu")
-    processor = ViTImageProcessor.from_pretrained(config.MODEL.CONF)
+    processor = parse_preprocessor(config)
 
     train_set,val_set = parse_dataset(config,processor)
 
