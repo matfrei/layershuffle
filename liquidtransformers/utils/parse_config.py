@@ -1,5 +1,5 @@
 from transformers import ViTForImageClassification, ViTImageProcessor, DeiTImageProcessor
-from ..models import PositionPredictingViTForImageClassification, PositionEncodingViTForImageClassification, PositionEncodingDeiTForImageClassification, ShufflingViTForImageClassification,ShufflingDeiTForImageClassification
+from ..models import PositionPredictingViTForImageClassification, PositionPredictingDeiTForImageClassification, PositionEncodingViTForImageClassification, PositionEncodingDeiTForImageClassification, ShufflingViTForImageClassification,ShufflingDeiTForImageClassification
 from safetensors import safe_open
 
 import torchvision
@@ -29,6 +29,7 @@ def parse_model(config):
     # FIXXME: this is fine for now, but it doesn't scale
     model_dict = {"ViTForImageClassification": ViTForImageClassification,
                   "PositionPredictingViTForImageClassification" : PositionPredictingViTForImageClassification,
+                  "PositionPredictingDeiTForImageClassification": PositionPredictingDeiTForImageClassification,
                   "PositionEncodingViTForImageClassification" : PositionEncodingViTForImageClassification,
                   "PositionEncodingDeiTForImageClassification" : PositionEncodingDeiTForImageClassification,
                   "ShufflingViTForImageClassification" : ShufflingViTForImageClassification,
