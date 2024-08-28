@@ -1,6 +1,5 @@
 import os
 import argparse
-from config.defaults import get_cfg_defaults
 
 import numpy as np
 
@@ -10,7 +9,7 @@ import torch
 
 from transformers import TrainingArguments, Trainer
 
-from liquidtransformers.utils import Experiment, parse_preprocessor, parse_model, parse_dataset
+from liquidtransformers.utils import Experiment, parse_preprocessor, parse_model, parse_dataset, get_cfg_defaults
 
 metric = load_metric("accuracy")
 
