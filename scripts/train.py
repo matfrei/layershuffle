@@ -9,7 +9,7 @@ import torch
 
 from transformers import TrainingArguments, Trainer
 
-from liquidtransformers.utils import Experiment, parse_preprocessor, parse_model, parse_dataset, get_cfg_defaults
+from layershuffle.utils import Experiment, parse_preprocessor, parse_model, parse_dataset, get_cfg_defaults
 
 metric = load_metric("accuracy")
 
