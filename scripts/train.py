@@ -46,7 +46,7 @@ def train_model():
 
     for seed in range(config.RANDOM_SEED,config.RANDOM_SEED+config.NUM_RUNS):
         training_args = TrainingArguments(
-            output_dir=os.path.join(experiment.modelpath,"run_{seed}"),
+            output_dir=os.path.join(experiment.modelpath,f"run_{seed}"),
             seed=seed,
             data_seed=seed,
             per_device_train_batch_size=config.OPTIMIZER.BATCH_SIZE_TRAIN,#432 for single gpu, 320 for 4x
