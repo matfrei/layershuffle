@@ -1,4 +1,4 @@
-from transformers import ViTForImageClassification, ViTImageProcessor, DeiTImageProcessor, ViTConfig, DeiTConfig
+from transformers import ViTForImageClassification, DeiTForImageClassification, ViTImageProcessor, DeiTImageProcessor, ViTConfig, DeiTConfig
 from ..models import PositionPredictingViTForImageClassification, PositionPredictingDeiTForImageClassification, PositionEncodingViTForImageClassification, PositionEncodingDeiTForImageClassification, ShufflingViTForImageClassification,ShufflingDeiTForImageClassification
 from safetensors import safe_open
 
@@ -28,6 +28,7 @@ def parse_preprocessor(config):
 def parse_model(config):
     # FIXXME: this is fine for now, but it doesn't scale
     model_dict = {"ViTForImageClassification": ViTForImageClassification,
+                  "DeiTForImageClassification": DeiTForImageClassification,
                   "PositionPredictingViTForImageClassification" : PositionPredictingViTForImageClassification,
                   "PositionPredictingDeiTForImageClassification": PositionPredictingDeiTForImageClassification,
                   "PositionEncodingViTForImageClassification" : PositionEncodingViTForImageClassification,
@@ -36,6 +37,7 @@ def parse_model(config):
                   "ShufflingDeiTForImageClassification" : ShufflingDeiTForImageClassification}
     model_class = model_dict[config.MODEL.NAME]
     config_dict = {"ViTForImageClassification": ViTConfig,
+                   "DeiTForImageClassification": DeiTConfig,
                   "PositionPredictingViTForImageClassification" : ViTConfig,
                   "PositionPredictingDeiTForImageClassification": DeiTConfig,
                   "PositionEncodingViTForImageClassification" : ViTConfig,
