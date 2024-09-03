@@ -118,9 +118,6 @@ class PositionEncodingDeiTForImageClassification(DeiTForImageClassification):
         self.num_labels = config.num_labels
         self.deit = PositionEncodingDeiTModel(config, add_pooling_layer=False)
 
-        #FIXXXME
-        self.vit = self.deit
-
         # Classifier head
         self.classifier = nn.Linear(config.hidden_size, config.num_labels) if config.num_labels > 0 else nn.Identity()
 

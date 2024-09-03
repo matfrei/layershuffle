@@ -209,7 +209,7 @@ class PositionPredictingDeiTForImageClassification(DeiTForImageClassification):
         self.num_labels = config.num_labels
         self.deit = PositionPredictingDeiTModel(config, add_pooling_layer=False)
         # FIXXME
-        self.vit = self.deit
+        #self.vit = self.deit
 
         # Classifier head
         self.classifier = nn.Linear(config.hidden_size, config.num_labels) if config.num_labels > 0 else nn.Identity()

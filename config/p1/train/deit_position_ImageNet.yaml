@@ -8,11 +8,11 @@ DATA:
 RANDOM_SEED: 0
 NUM_RUNS: 5
 GPU_ID: 0
-N_WORKERS: 4
+N_WORKERS: 8
 
 # Model to use
 MODEL:
-  NAME: "PositionPredictingDeiTForImageClassification"
+  NAME: "PositionEncodingDeiTForImageClassification"
   PREPNAME: "DeiTImageProcessor"
   CONF: "facebook/deit-base-distilled-patch16-224"
   SHUFFLE: True
@@ -21,7 +21,7 @@ MODEL:
 # Experiment logging information
 EXPERIMENT_LOG:
   BASEPATH: "/dtu/p1/matfre/models/"
-  MODEL_NAME: "PositionPredictionDeiTForImageClassification"
+  MODEL_NAME: "PositionEncodingDeiTForImageClassification"
   EXPERIMENT_NAME: "LayerShufflePredict-ImageNet_lr_1e-4_epochs_20"
 
 # optimizer to use

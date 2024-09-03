@@ -35,6 +35,7 @@ _C.EXPERIMENT_LOG = CN()
 _C.EXPERIMENT_LOG.BASEPATH = 'results-reproduced/LiquidTransformers'
 _C.EXPERIMENT_LOG.MODEL_NAME = str(_C.MODEL.NAME)
 _C.EXPERIMENT_LOG.EXPERIMENT_NAME = f"{_C.EXPERIMENT_LOG.MODEL_NAME}_lr_{_C.OPTIMIZER.LR}_epochs_{_C.OPTIMIZER.EPOCHS}_seed_{_C.RANDOM_SEED}"
+_C.EXPERIMENT_LOG.TIMESTAMP = None
 
 def get_cfg_defaults():
   """Get a yacs CfgNode object with default values for foolingclip"""

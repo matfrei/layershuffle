@@ -84,7 +84,7 @@ class ShufflingDeiTForImageClassification(DeiTForImageClassification):
         self.deit = ShufflingDeiTModel(config, add_pooling_layer=False)
 
         #FIXXXME hack to easitly acceess shuffle property.. again we should use the models original config here?
-        self.vit = self.deit
+        #self.vit = self.deit
 
         # Classifier head
         self.classifier = nn.Linear(config.hidden_size, config.num_labels) if config.num_labels > 0 else nn.Identity()
