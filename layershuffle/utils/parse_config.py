@@ -1,4 +1,4 @@
-from transformers import ViTForImageClassification, ViTImageProcessor, DeiTImageProcessor
+from transformers import ViTForImageClassification, ViTImageProcessor, DeiTImageProcessor, ViTConfig
 from ..models import PositionPredictingViTForImageClassification, PositionPredictingDeiTForImageClassification, PositionEncodingViTForImageClassification, PositionEncodingDeiTForImageClassification, ShufflingViTForImageClassification,ShufflingDeiTForImageClassification
 from safetensors import safe_open
 
@@ -35,7 +35,14 @@ def parse_model(config):
                   "ShufflingViTForImageClassification" : ShufflingViTForImageClassification,
                   "ShufflingDeiTForImageClassification" : ShufflingDeiTForImageClassification}
     model_class = model_dict[config.MODEL.NAME]
-    model = model_class.from_pretrained(config.MODEL.CONF)
+
+    if config.MODEL.PRETRAINED:
+        model = model_class.from_pretrained(config.MODEL.CONF)
+    else:
+        print(ViTConfig.from_pretrained(config.MODEL.CONF))
+        #model = model_class(ViTConfig(hidden_size = 768, num_hidden_layers = 12, num_attention_heads = 12, intermediate_size = 3072, hidden_act = 'gelu', hidden_dropout_prob = 0.0, attention_probs_dropout_prob = 0.0, initializer_range = 0.02, layer_norm_eps = 1e-12, image_size = 224, patch_size = 16, num_channels = 3, qkv_bias = True, encoder_stride = 16))
+        model = model_class(ViTConfig.from_pretrained(config.MODEL.CONF))
+
     if config.MODEL.WEIGHTS is not None:
         load_model_weights(model, config.MODEL.WEIGHTS)
     model.vit.encoder.shuffle = config.MODEL.SHUFFLE

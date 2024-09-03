@@ -18,9 +18,10 @@ _C.MODEL = CN()
 _C.MODEL.PREPNAME = "ViTImageProcessor"
 _C.MODEL.NAME = "ViTForImageClassification"
 _C.MODEL.CONF = "google/vit-base-patch16-224"
+_C.MODEL.PRETRAINED = True
 _C.MODEL.WEIGHTS = None
 _C.MODEL.SHUFFLE = False
-_C.MODEL.IMG_SIZE = 256
+_C.MODEL.IMG_SIZE = 224
 
 # optimizer to use
 _C.OPTIMIZER = CN()
