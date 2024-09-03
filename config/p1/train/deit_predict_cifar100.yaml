@@ -16,6 +16,7 @@ MODEL:
   PREPNAME: "DeiTImageProcessor"
   CONF: "facebook/deit-base-distilled-patch16-224"
   SHUFFLE: True
+  PRETRAINED: False
   IMG_SIZE: 224
 
 # Experiment logging information

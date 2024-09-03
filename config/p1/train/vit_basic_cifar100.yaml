@@ -15,6 +15,7 @@ MODEL:
   NAME: "ShufflingViTForImageClassification"
   PREPNAME: "ViTImageProcessor"
   CONF: "google/vit-base-patch16-224"
+  PRETRAINED: False
   SHUFFLE: True
   IMG_SIZE: 224
 

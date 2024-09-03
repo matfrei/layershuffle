@@ -5,8 +5,8 @@ DATA:
   TEST_PATH: "/dtu/p1/matfre/data/imagenet2012/val/"
 
 # Experiment paramters
-RANDOM_SEED: 1
-NUM_RUNS: 4
+RANDOM_SEED: 0
+NUM_RUNS: 5
 GPU_ID: 0
 N_WORKERS: 8
 

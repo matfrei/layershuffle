@@ -15,6 +15,7 @@ MODEL:
   NAME: "ShufflingDeiTForImageClassification" 
   PREPNAME: "DeiTImageProcessor"
   CONF: "facebook/deit-base-distilled-patch16-224"
+  PRETRAINED: False
   SHUFFLE: True
   IMG_SIZE: 224
 

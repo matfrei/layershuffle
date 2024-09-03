@@ -5,8 +5,8 @@ DATA:
   TEST_PATH: 'data/CIFAR-100'
 
 # Experiment paramters
-RANDOM_SEED: 1
-NUM_RUNS: 4
+RANDOM_SEED: 0
+NUM_RUNS: 5
 GPU_ID: 0
 N_WORKERS: 8
 
@@ -15,7 +15,6 @@ MODEL:
   NAME: "PositionEncodingDeiTForImageClassification"
   PREPNAME: "DeiTImageProcessor"
   CONF: "facebook/deit-base-distilled-patch16-224"
-  PRETRAINED: False
   SHUFFLE: True
   IMG_SIZE: 224
 

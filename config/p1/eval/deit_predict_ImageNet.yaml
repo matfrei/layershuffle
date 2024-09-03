@@ -8,7 +8,7 @@ DATA:
 RANDOM_SEED: 0
 NUM_RUNS: 5
 GPU_ID: 0
-N_WORKERS: 4
+N_WORKERS: 8
 
 # Model to use
 MODEL:
