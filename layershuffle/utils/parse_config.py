@@ -38,7 +38,11 @@ def parse_model(config):
     model = model_class.from_pretrained(config.MODEL.CONF)
     if config.MODEL.WEIGHTS is not None:
         load_model_weights(model, config.MODEL.WEIGHTS)
-    model.vit.encoder.shuffle = config.MODEL.SHUFFLE
+    #FIXXXXME: this is hacky but as always, we are short on time
+    if "DeiT" in  config.MODEL.NAME:
+        model.deit.encoder.shuffle = config.MODEL.SHUFFLE
+    else:
+        model.vit.encoder.shuffle = config.MODEL.SHUFFLE
     return model
 
 def parse_dataset(config,processor):
