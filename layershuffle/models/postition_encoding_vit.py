@@ -40,6 +40,7 @@ class PositionEncodingViTEncoder(torch.nn.Module):
         self.layer = nn.ModuleList([VitProjectedLayer(config) for _ in range(config.num_hidden_layers)])
         self.gradient_checkpointing = False
         self.embedding = torch.nn.Embedding(config.num_hidden_layers, self.pos_enc_dim)
+        torch.nn.init.zeros_(self.embedding.weight)
         self.shuffle = shuffle
 
     def forward(
