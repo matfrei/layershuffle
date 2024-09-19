@@ -23,7 +23,7 @@ EXPERIMENT_LOG:
   BASEPATH: "/dtu/p1/matfre/models/"
   MODEL_NAME: "ShufflingViTForImageClassification"
   EXPERIMENT_NAME: "LayerShuffle-CIFAR100_lr_1e-4_epochs_20"
-
+  TIMESTAMP: "30-08-2024_14-27-15"
 # optimizer to use
 OPTIMIZER:
   EPOCHS: 100

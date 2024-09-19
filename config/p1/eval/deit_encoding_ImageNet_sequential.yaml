@@ -1,8 +1,8 @@
 # Data
 DATA:
-  DATASET: 'CIFAR-100'
-  TRAIN_PATH: 'data/CIFAR-100'
-  TEST_PATH: 'data/CIFAR-100'
+  DATASET: "ImageNet2012"
+  TRAIN_PATH: "/dtu/datasets1/imagenet_object_localization_patched2019/ILSVRC/Data/CLS-LOC/train/"
+  TEST_PATH: "/dtu/p1/matfre/data/imagenet2012/val/"
 
 # Experiment paramters
 RANDOM_SEED: 0
@@ -15,19 +15,19 @@ MODEL:
   NAME: "PositionEncodingDeiTForImageClassification"
   PREPNAME: "DeiTImageProcessor"
   CONF: "facebook/deit-base-distilled-patch16-224"
-  SHUFFLE: True
+  SHUFFLE: False
   IMG_SIZE: 224
 
 # Experiment logging information
 EXPERIMENT_LOG:
   BASEPATH: "/dtu/p1/matfre/models/"
   MODEL_NAME: "PositionEncodingDeiTForImageClassification"
-  EXPERIMENT_NAME: "LayerShufflePredict-CIFAR100_lr_1e-4_epochs_20"
-  TIMESTAMP: "16-09-2024_18-54-52"
+  EXPERIMENT_NAME: "LayerShufflePosition-ImageNet_lr_1e-4_epochs_20"
+  TIMESTAMP: "17-09-2024_03-39-44"
 
 # optimizer to use
 OPTIMIZER:
-  EPOCHS: 100
+  EPOCHS: 20
   BATCH_SIZE_TRAIN: 128
   BATCH_SIZE_EVAL: 1600
   LR: 1e-4

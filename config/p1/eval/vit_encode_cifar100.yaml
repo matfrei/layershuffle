@@ -12,18 +12,18 @@ N_WORKERS: 8
 
 # Model to use
 MODEL:
-  NAME: "PositionEncodingDeiTForImageClassification"
-  PREPNAME: "DeiTImageProcessor"
-  CONF: "facebook/deit-base-distilled-patch16-224"
+  NAME: "PositionEncodingViTForImageClassification"
+  PREPNAME: "ViTImageProcessor"
+  CONF: "google/vit-base-patch16-224"
   SHUFFLE: True
   IMG_SIZE: 224
 
 # Experiment logging information
 EXPERIMENT_LOG:
   BASEPATH: "/dtu/p1/matfre/models/"
-  MODEL_NAME: "PositionEncodingDeiTForImageClassification"
-  EXPERIMENT_NAME: "LayerShufflePredict-CIFAR100_lr_1e-4_epochs_20"
-  TIMESTAMP: "16-09-2024_18-54-52"
+  MODEL_NAME: "PositionEncodingViTForImageClassification"
+  EXPERIMENT_NAME: "LayerShuffleEncoding-CIFAR100_lr_1e-4_epochs_20"
+  TIMESTAMP : "17-09-2024_05-06-03"
 
 # optimizer to use
 OPTIMIZER:
