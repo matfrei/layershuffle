@@ -65,7 +65,12 @@ def eval_model():
         scores.append((top1,top5))
 
     json = pd.DataFrame(scores, columns=['top1_acc', 'top5_acc']).to_json()
-    output_dir=os.path.join(experiment.modelpath,f"{config.MODEL.NAME}_scores.json")
+    if config.MODEL.SHUFFLE:
+        postfix = 'arbitrary'
+    else:
+        postfix = 'sequential'
+        
+    output_dir=os.path.join(experiment.modelpath,f"{config.MODEL.NAME}_scores_{postfix}.json")
     with open(output_dir,"w") as file:
         file.write(json)
 
