@@ -2,12 +2,19 @@ from transformers import ViTForImageClassification, DeiTForImageClassification, 
 from ..models import PositionPredictingViTForImageClassification, PositionPredictingDeiTForImageClassification, PositionEncodingViTForImageClassification, PositionEncodingDeiTForImageClassification, ShufflingViTForImageClassification,ShufflingDeiTForImageClassification
 from safetensors import safe_open
 
+from sklearn.model_selection import StratifiedShuffleSplit
+import numpy as np
+
+from torch.utils.data import Subset
+
 import torchvision
 from torchvision.transforms import (CenterCrop,
                                     Compose,
                                     Normalize,
                                     Resize,
-                                    ToTensor)
+                                    ToTensor,
+                                    Lambda)
+
 
 def load_model_weights(model, checkpoint_path):
     state_dict = {}
@@ -62,13 +69,16 @@ def parse_model(config):
 def parse_dataset(config,processor):
     # FIXXME: same here, no harm in making it simple but it doesn't scale
     image_mean = processor.image_mean
+    print(image_mean)
     image_std = processor.image_std
+    print(image_std)
     normalize = Normalize(mean=image_mean, std=image_std)
     # TODO there is probably a better way to read out the image size directly from hf config (reading from prep is faulty)
     size = config.MODEL.IMG_SIZE
 
     _train_transforms = Compose(
         [
+            Lambda(lambda img:img.convert("RGB")),
             Resize(size),
             CenterCrop(size),
             ToTensor(),
@@ -78,6 +88,7 @@ def parse_dataset(config,processor):
 
     _val_transforms = Compose(
         [
+            Lambda(lambda img:img.convert("RGB")),
             Resize(size),
             CenterCrop(size),
             ToTensor(),
@@ -91,6 +102,16 @@ def parse_dataset(config,processor):
     elif config.DATA.DATASET=="CIFAR-100":
         train_set = torchvision.datasets.CIFAR100(root=config.DATA.TRAIN_PATH, train=True, download=True, transform=_train_transforms)
         val_set = torchvision.datasets.CIFAR100(root=config.DATA.TEST_PATH, train=False, download=True, transform=_val_transforms)
+    elif config.DATA.DATASET=="Caltech256":
+        dataset = torchvision.datasets.Caltech256(root=config.DATA.TRAIN_PATH, download=True,transform=_val_transforms)
+        labels = [label for label in dataset.y] 
+        stratified_split = StratifiedShuffleSplit(n_splits=1, test_size=0.4, random_state=0)
+        train_indices, test_indices = next(stratified_split.split(np.zeros(len(labels)), labels))
+
+        # Create subsets for training and testing
+        train_set = Subset(dataset, train_indices)
+        val_set = Subset(dataset, test_indices)
+        
     else: # default dataset is imagenet
         train_set = torchvision.datasets.ImageFolder(root=config.DATA.TRAIN_PATH, transform=_train_transforms)
         val_set = torchvision.datasets.ImageFolder(root=config.DATA.TEST_PATH, transform=_val_transforms)
