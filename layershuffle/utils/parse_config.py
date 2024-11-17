@@ -111,6 +111,17 @@ def parse_dataset(config,processor):
         # Create subsets for training and testing
         train_set = Subset(dataset, train_indices)
         val_set = Subset(dataset, test_indices)
+
+    elif config.DATA.DATASET=="EuroSAT":
+        dataset = torchvision.datasets.EuroSAT(root=config.DATA.TRAIN_PATH, download=True,transform=_val_transforms)
+        labels = [label for label in dataset.targets] 
+        stratified_split = StratifiedShuffleSplit(n_splits=1, test_size=0.4, random_state=0)
+        train_indices, test_indices = next(stratified_split.split(np.zeros(len(labels)), labels))
+
+        # Create subsets for training and testing
+        train_set = Subset(dataset, train_indices)
+        val_set = Subset(dataset, test_indices)
+
         
     else: # default dataset is imagenet
         train_set = torchvision.datasets.ImageFolder(root=config.DATA.TRAIN_PATH, transform=_train_transforms)
