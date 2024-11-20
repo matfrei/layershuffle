@@ -32,7 +32,7 @@ def parse_args():
     args = parser.parse_args()
     return args
 
-def train_model(config,save_model=True): 
+def train_model(config,save_model=True,use_bf=False): 
     config.freeze()
 
     experiment = Experiment(config.EXPERIMENT_LOG.BASEPATH, config.EXPERIMENT_LOG.MODEL_NAME, config.EXPERIMENT_LOG.EXPERIMENT_NAME)
@@ -56,7 +56,8 @@ def train_model(config,save_model=True):
             evaluation_strategy="epoch",
             save_strategy="epoch",
             num_train_epochs=config.OPTIMIZER.EPOCHS,
-            fp16=True,
+            fp16=not use_bf,
+            bf16=use_bf,
             logging_strategy="epoch",
             learning_rate=config.OPTIMIZER.LR,
             save_total_limit=save_total_limit,

@@ -25,8 +25,8 @@ def parse_args():
 
 def train_run(params,config):
     config.OPTIMIZER.BATCH_SIZE_TRAIN = int(params['batch_size'])
-    config.OPTIMIZER.LR = params['lr']
-    trainer = train_model(copy.deepcopy(config),save_model=False)
+    config.OPTIMIZER.LR = 10**params['lr']
+    trainer = train_model(copy.deepcopy(config),save_model=False,use_bf=True)
     metrics = trainer.evaluate()
     loss = 1. - metrics['eval_accuracy']
     return {'loss': loss, 'status': STATUS_OK}
@@ -37,7 +37,7 @@ def find_hyperparams(config):
     outpath = os.path.join(experiment.modelpath,"params.pkl")
     Path(experiment.modelpath).mkdir(parents=True, exist_ok=True)
     space = {
-        "lr":  hp.loguniform('lr', -6, -1),
+        "lr":  hp.uniform('lr', -7, -1),
         "batch_size": hp.quniform("batch_size",8 ,320 , 8)}
     train_fn = partial(train_run,config=config)
 
