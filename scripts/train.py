@@ -31,10 +31,8 @@ def parse_args():
     parser.add_argument('--config-path', help='path to config file')
     args = parser.parse_args()
     return args
-def train_model():
-    config_path = parse_args().config_path
-    config = get_cfg_defaults()
-    config.merge_from_file(config_path)
+
+def train_model(config,save_model=True): 
     config.freeze()
 
     experiment = Experiment(config.EXPERIMENT_LOG.BASEPATH, config.EXPERIMENT_LOG.MODEL_NAME, config.EXPERIMENT_LOG.EXPERIMENT_NAME)
@@ -44,6 +42,10 @@ def train_model():
 
     train_set,val_set = parse_dataset(config,processor)
 
+    save_total_limit=0
+    if save_model:
+        save_total_limit=2
+    
     for seed in range(config.RANDOM_SEED,config.RANDOM_SEED+config.NUM_RUNS):
         training_args = TrainingArguments(
             output_dir=os.path.join(experiment.modelpath,f"run_{seed}"),
@@ -57,7 +59,7 @@ def train_model():
             fp16=True,
             logging_strategy="epoch",
             learning_rate=config.OPTIMIZER.LR,
-            save_total_limit=2,
+            save_total_limit=save_total_limit,
             remove_unused_columns=False,
             push_to_hub=False,
             report_to='tensorboard',
@@ -78,10 +80,16 @@ def train_model():
         )
 
         train_results = trainer.train()
-        trainer.save_model()
-        trainer.log_metrics("train", train_results.metrics)
-        trainer.save_metrics("train", train_results.metrics)
-        trainer.save_state()
+        if save_model:
+            trainer.save_model()
+            trainer.log_metrics("train", train_results.metrics)
+            trainer.save_metrics("train", train_results.metrics)
+            trainer.save_state()
+            
+        return train_results
 
 if __name__ == '__main__':
-    train_model()
+    config_path = parse_args().config_path
+    config = get_cfg_defaults()
+    config.merge_from_file(config_path)
+    train_model(config)
