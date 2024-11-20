@@ -86,7 +86,7 @@ def train_model(config,save_model=True):
             trainer.save_metrics("train", train_results.metrics)
             trainer.save_state()
             
-        return train_results
+        return trainer
 
 if __name__ == '__main__':
     config_path = parse_args().config_path
